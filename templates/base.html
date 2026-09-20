@@ -12,7 +12,7 @@
 <nav class="navbar navbar-expand-lg app-navbar">
   <div class="container">
     <a class="navbar-brand" href="{{ url_for('dashboard') }}">
-      <span class="brand-mark"><i class="fa-solid fa-location-crosshairs"></i></span>
+      <span class="brand-mark">LF</span>
       <span>Lost &amp; Found</span>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
@@ -53,24 +53,27 @@
 <script>
   const body = document.body;
   const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') {
+  if (savedTheme === 'light') {
+    body.setAttribute('data-theme', 'light');
+  } else {
     body.setAttribute('data-theme', 'dark');
   }
 
   const themeToggle = document.getElementById('themeToggle');
   if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const isDark = body.getAttribute('data-theme') === 'dark';
-      body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      localStorage.setItem('theme', isDark ? 'light' : 'dark');
-      const icon = themeToggle.querySelector('i');
-      icon.className = isDark ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-    });
-
     const icon = themeToggle.querySelector('i');
-    if (body.getAttribute('data-theme') === 'dark') {
-      icon.className = 'fa-solid fa-sun';
-    }
+    const syncIcon = () => {
+      icon.className = body.getAttribute('data-theme') === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+    };
+
+    syncIcon();
+
+    themeToggle.addEventListener('click', () => {
+      const isLight = body.getAttribute('data-theme') === 'light';
+      body.setAttribute('data-theme', isLight ? 'dark' : 'light');
+      localStorage.setItem('theme', isLight ? 'dark' : 'light');
+      syncIcon();
+    });
   }
 </script>
 </body>
